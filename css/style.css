@@ -84,7 +84,9 @@ html {
 body {
 	background-color: #223558;
 	color:aliceblue;
+  text-align: center;
 }
+
 .wrapper{
   margin: 0 auto 0 auto;
   max-width: 960px;
@@ -105,10 +107,39 @@ a:active {
     color:rgb(95, 95, 95);
 }
 
-.nav {
-  margin: 0 0 0 0;
-  padding: 20px 10px 15px 20px;
-  background-image: url();
-  background-repeat: repeat-x;
-
+hr {
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
+
+hr {
+  border-top: 1px solid #ccc;
+  height: 1em;
+  text-align: center;
+  overflow: visible;
+}
+hr::after {
+  content: "TODOリスト";
+  background: #223558;
+  color: #ccc;
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  top: -1em;
+  padding: 0 1em;
+}
+/* すべてのページに適用- ヘッダー - */
+.logo {
+	margin:30px 0 30px 0;
+	line-height: 0;
+	text-align: center;
+}
+nav {
+	margin: 0 0 0 0;
+	padding: 20px 10px 15px 20px;
+	background-image: url(./images/obi1.png);
+	background-repeat: repeat-x;
+  }
