@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello FireStore</title>
+</head>
+<body>
+    <select name="kamokukubun" id="kamoku">
+        <option disabled selected>科目区分を選択してください</option>
+        <option value="1">修学基礎科目</option>
+        <option value="2">人間形成基礎科目</option>
+        <option value="3">英語科目</option>
+        <option value="4">数理基礎科目</option>
+        <option value="5">基礎実技科目</option>
+        <option value="6">専門科目</option>
+        <option value="7">専門プロジェクト科目</option>
+        <option value="8">その他</option>
+      </select>
+      <button onclick="addToDo()">add</button>
+<script>
+// Firestoreのインスタンス作成
+    // var db = firebase.firestore();
+    // var LIST = [];  //ID保管用
+    // /**
+    //      * データの追加
+    //      **/
+    // document.querySelector("#addData").addEventListener("click", ()=>{
+    //     db.collection("users").add({
+    //         name: "マイメロ",
+    //         age: 27
+    //     })
+    //     .then((doc) => {
+    //         LIST.push(doc.id);
+    //         showMessage(`追加に成功しました (${doc.id})`);
+    //     })
+    //     .catch((error) => {
+    //         showMessage(`追加に失敗しました (${error})`);
+    //     });
+    // });
+</script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase-firestore.js"></script>
+    <script src="Api.js"></script>
+</body>
+</html>
