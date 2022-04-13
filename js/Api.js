@@ -26,7 +26,7 @@ const addToDo = () => {
         var data = doc.data();
         buff.push([data.date, data.subject, data.todo, data.docid]);
         });
-        console.log(buff);
+        console.log('AddToDo' + buff);
         var todoList = document.getElementById('todoList');
         while(todoList.firstChild){
             todoList.removeChild(todoList.firstChild);
@@ -61,8 +61,7 @@ const todoBySubject = () =>{
         });
         var todoList = document.getElementById('todoList');
         todoList.innerHTML = '';
-        console.log(buff);
-        var todoList = document.getElementById('todoList');
+        console.log('BySubject' + buff);
         while(todoList.firstChild){
             todoList.removeChild(todoList.firstChild);
         }
@@ -81,7 +80,7 @@ const todoByClose = () =>{
         var data = doc.data();
         buff.push([data.date, data.subject, data.todo, data.docid]);
         });
-        console.log(buff);
+        console.log('ByClose' + buff);
         var todoList = document.getElementById('todoList');
         while(todoList.firstChild){
             todoList.removeChild(todoList.firstChild);
@@ -89,7 +88,7 @@ const todoByClose = () =>{
         makeList(buff);
     })
     .catch((error)=>{
-        console.log(`データの取得に失敗しました (${error})`);
+        console.log(`todoByCloseのデータの取得に失敗しました (${error})`);
     });
 }
 
@@ -101,7 +100,7 @@ const todoByDistance = () =>{
             var data = doc.data();
             buff.push([data.date, data.subject, data.todo, data.docid]);
         });
-        console.log(buff);
+        console.log('ByDistance' + buff);
         var todoList = document.getElementById('todoList');
         while(todoList.firstChild){
             todoList.removeChild(todoList.firstChild);
@@ -109,19 +108,8 @@ const todoByDistance = () =>{
         makeList(buff);
     })
     .catch((error)=>{
-        console.log(`データの取得に失敗しました (${error})`);
+        console.log(`todoByDistanceのデータの取得に失敗しました (${error})`);
     });
-}
-
-const makeList = (buff) => {
-    const mapBuff = buff.map(value => {
-        const date = String(value[0]);
-        const year = date.substr(0, 4);
-        const manth = date.substr(4, 2);
-        const day = date.substr(6, 2);
-        console.log(`期限:${year}年${manth}月${day}日  科目:${value[1]}  課題:${value[2]}  id:${value[3]}`);
-        todoList.insertAdjacentHTML('beforeend', `<li>期限:${year}年${manth}月${day}日  科目:${value[1]}  課題:${value[2]}<button onclick='deleteToDo(${value[3]})'>aaa`);
-    })
 }
 
 const deleteToDo = (docid) => {
@@ -134,7 +122,7 @@ const deleteToDo = (docid) => {
                 var data = doc.data();
                 buff.push([data.date, data.subject, data.todo, data.docid]);
             });
-            console.log(buff);
+            console.log('deleteToDo' + buff);
             var todoList = document.getElementById('todoList');
             while(todoList.firstChild){
                 todoList.removeChild(todoList.firstChild);
@@ -149,4 +137,27 @@ const deleteToDo = (docid) => {
         console.log(`削除に失敗しました (${error})`);
     });
 }
+
+const makeList = (buff) => {
+    buff.map((value) => {
+        const date = String(value[0]);
+        const year = date.substr(0, 4);
+        const manth = date.substr(4, 2);
+        const day = date.substr(6, 2);
+        console.log(`makalist##期限:${year}年${manth}月${day}日  科目:${value[1]}  課題:${value[2]}  id:${value[3]}`);
+        const makeButton = (value) => {
+            // const button = document.createElement('button');
+            // button.setAttribute('onclick', 'deleteToDo(arg)');
+            // button.setAttribute('value', '削除');
+            // var objLi = document.getElementsByTagName("li").item(0); 
+            // objLi.appendChild(button); 
+            return   `<button onclick = '${deleteToDo(`${value}`)}'>削除</button>`;
+        };
+
+
+        todoList.insertAdjacentHTML('beforeend', `<li>期限:${year}年${manth}月${day}日  科目:${value[1]}  課題:${value[2]}<button onClick = '${deleteToDo(`${value[3]}`)}'>あああ</button></li>`);
+        //'beforeend', '<li>期限:' + year + '年' + manth + '月' + day + '日  科目:' + value[1] + '課題:' + value[2] + '<button onclick="' + deleteToDo(value[3]) + '">' + '削除' + '</button>' + '</li>'
+    })
+}
+
 window.onload = todoByClose();
