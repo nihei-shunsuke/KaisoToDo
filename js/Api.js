@@ -1,20 +1,24 @@
 const addToDo = () => {
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   const todo = document.getElementById("todo").value;
   const getSubject = document.getElementById("kamoku");
   const subjectIndex = getSubject.selectedIndex;
   const subject = getSubject[subjectIndex].text;
-  const ref = db.collection("todo").doc();
-  const id = ref.id;
+//   const ref = db.collection("todo").doc();
+//   const id = ref.id;
+//   const today = new Date()
+//   const id = `${today.getFullYear()}`
+  const docid = db.collection('todo').doc().id
+  console.log('docment id', docid)
   const date = parseInt(
     document.getElementById("date").value.replace(/-/g, "")
   );
-  db.collection("todo")
-    .add({
+  db.collection("todo").doc(docid)
+    .set({
       subject: subject,
       date: date,
       todo: todo,
-      docid: id,
+      docid: docid,
     })
     .then((doc) => {
       console.log(`追加に成功しました (${doc.id})`);
@@ -26,13 +30,13 @@ const addToDo = () => {
   db.collection("todo")
     .get()
     .then((query) => {
-      var buff = [];
+      const buff = [];
       query.forEach((doc) => {
-        var data = doc.data();
+        const data = doc.data();
         buff.push([data.date, data.subject, data.todo, data.docid]);
       });
       console.log("AddToDo" + buff);
-      var todoList = document.getElementById("todoList");
+      const todoList = document.getElementById("todoList");
       while (todoList.firstChild) {
         todoList.removeChild(todoList.firstChild);
       }
@@ -56,45 +60,45 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const todoBySubject = () => {
-  var db = firebase.firestore();
-  db.collection("todo")
-    .orderBy("subject")
-    .get()
-    .then((query) => {
-      var buff = [];
-      query.forEach((doc) => {
-        var data = doc.data();
-        buff.push([data.date, data.subject, data.todo, data.docid]);
-      });
-      var todoList = document.getElementById("todoList");
-      todoList.innerHTML = "";
-      console.log("BySubject" + buff);
-      while (todoList.firstChild) {
-        todoList.removeChild(todoList.firstChild);
-      }
-      makeList(buff);
-    })
-    .catch((error) => {
-      console.log(`データの取得に失敗しました (${error})`);
-    });
-};
+// const todoBySubject = () => {
+//   const db = firebase.firestore();
+//   db.collection("todo")
+//     .orderBy("subject")
+//     .get()
+//     .then((query) => {
+//       const buff = [];
+//       query.forEach((doc) => {
+//         const data = doc.data();
+//         buff.push([data.date, data.subject, data.todo, data.docid]);
+//       });
+//       const todoList = document.getElementById("todoList");
+//       todoList.innerHTML = "";
+//       console.log("BySubject" + buff);
+//       while (todoList.firstChild) {
+//         todoList.removeChild(todoList.firstChild);
+//       }
+//       makeList(buff);
+//     })
+//     .catch((error) => {
+//       console.log(`データの取得に失敗しました (${error})`);
+//     });
+// };
 
 const todoByClose = () => {
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   db.collection("todo")
     .orderBy("date")
     .get()
     .then((query) => {
-      var buff = [];
+      const buff = [];
       query.forEach((doc) => {
-        var data = doc.data();
+        const data = doc.data();
         buff.push([data.date, data.subject, data.todo, data.docid]);
       });
       console.log("ByClose" + buff);
-      var todoList = document.getElementById("todoList");
-      while (todoList.firstChild) {
-        todoList.removeChild(todoList.firstChild);
+      const tl = document.getElementById("todoList");
+      while (tl.firstChild) {
+        tl.removeChild(tl.firstChild);
       }
       makeList(buff);
     })
@@ -103,32 +107,32 @@ const todoByClose = () => {
     });
 };
 
-const todoByDistance = () => {
-  var db = firebase.firestore();
-  db.collection("todo")
-    .orderBy("date", "desc")
-    .get()
-    .then((query) => {
-      var buff = [];
-      query.forEach((doc) => {
-        var data = doc.data();
-        buff.push([data.date, data.subject, data.todo, data.docid]);
-      });
-      console.log("ByDistance" + buff);
-      var todoList = document.getElementById("todoList");
-      while (todoList.firstChild) {
-        todoList.removeChild(todoList.firstChild);
-      }
-      makeList(buff);
-    })
-    .catch((error) => {
-      console.log(`todoByDistanceのデータの取得に失敗しました (${error})`);
-    });
-};
+// const todoByDistance = () => {
+//   const db = firebase.firestore();
+//   db.collection("todo")
+//     .orderBy("date", "desc")
+//     .get()
+//     .then((query) => {
+//       const buff = [];
+//       query.forEach((doc) => {
+//         const data = doc.data();
+//         buff.push([data.date, data.subject, data.todo, data.docid]);
+//       });
+//       console.log("ByDistance" + buff);
+//       const todoList = document.getElementById("todoList");
+//       while (todoList.firstChild) {
+//         todoList.removeChild(todoList.firstChild);
+//       }
+//       makeList(buff);
+//     })
+//     .catch((error) => {
+//       console.log(`todoByDistanceのデータの取得に失敗しました (${error})`);
+//     });
+// };
 
 const deleteToDo = (docid) => {
   console.log('id', docid)
-  var db = firebase.firestore();
+  const db = firebase.firestore();
   db.collection("todo")
     .doc(docid)
     .delete()
@@ -137,13 +141,13 @@ const deleteToDo = (docid) => {
       db.collection("todo")
         .get()
         .then((query) => {
-          var buff = [];
+          const buff = [];
           query.forEach((doc) => {
-            var data = doc.data();
+            const data = doc.data();
             buff.push([data.date, data.subject, data.todo, data.docid]);
           });
           console.log("deleteToDo" + buff);
-          var todoList = document.getElementById("todoList");
+          const todoList = document.getElementById("todoList");
           while (todoList.firstChild) {
             todoList.removeChild(todoList.firstChild);
           }
@@ -159,6 +163,8 @@ const deleteToDo = (docid) => {
 };
 
 const makeList = (buff) => {
+  const todoList = document.getElementById("todoList");
+
   buff.map((value) => {
     const date = String(value[0]);
     const year = date.substr(0, 4);
@@ -167,14 +173,15 @@ const makeList = (buff) => {
     console.log(
       `makalist##期限:${year}年${manth}月${day}日  科目:${value[1]}  課題:${value[2]}  id:${value[3]}`
     );
-    const makeButton = (value) => {
+
+    // const makeButton = (value) => {
       // const button = document.createElement('button');
       // button.setAttribute('onclick', 'deleteToDo(arg)');
       // button.setAttribute('value', '削除');
       // var objLi = document.getElementsByTagName("li").item(0);
       // objLi.appendChild(button);
-      return `<button onclick = '${deleteToDo(`${value}`)}'>削除</button>`;
-    };
+      // return `<button onclick = '${deleteToDo(`${value}`)}'>削除</button>`;
+    // };
 
     todoList.insertAdjacentHTML(
       "beforeend",
@@ -185,7 +192,9 @@ const makeList = (buff) => {
     //'beforeend', '<li>期限:' + year + '年' + manth + '月' + day + '日  科目:' + value[1] + '課題:' + value[2] + '<button onclick="' + deleteToDo(value[3]) + '">' + '削除' + '</button>' + '</li>'
 
     const deleteButton = document.getElementById(value[3])
-    deleteButton.addEventListener('click', () => {
+    deleteButton.addEventListener('click', e => {
+        e.stopPropagation()
+        e.preventDefault()
         deleteToDo(value[3])
     }, false)
   });
